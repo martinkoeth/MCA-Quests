@@ -1,11 +1,6 @@
 package me.soulvenom.mcaquests;
 
 import com.mojang.logging.LogUtils;
-import fabric.net.mca.MCA;
-import forge.net.mca.client.gui.AbstractDynamicScreen;
-import forge.net.mca.client.gui.Button;
-import forge.net.mca.forge.MCAForge;
-import forge.net.mca.forge.MCAForgeClient;
 import me.soulvenom.mcaquests.item.ModItems;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;

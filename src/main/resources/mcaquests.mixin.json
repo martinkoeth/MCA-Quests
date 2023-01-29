@@ -4,7 +4,7 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "mixins.mcaquests.refmap.json",
   "mixins": [
-    "InteractScreenAddon"
+    "InteractScreenMixin"
   ],
   "client": [],
   "minVersion": "0.8",

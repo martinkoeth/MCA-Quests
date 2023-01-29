@@ -10,18 +10,22 @@ buildscript {
     }
 }
 
-apply plugin: 'net.minecraftforge.gradle'
+
+
+plugins {
+    id 'net.minecraftforge.gradle' version '5.1.+'
+    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+//    id 'eclipse'
+//    id 'maven-publish'
+
+}
+
+//apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 // MixinGradle:
 apply plugin: 'org.spongepowered.mixin'
-
-//plugins {
-//    id 'eclipse'
-//    id 'maven-publish'
-//    id 'net.minecraftforge.gradle' version '5.1.+'
-//}
 
 version = '0.0.1-1.19.2'
 group = 'me.soulvenom.mcaquests' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -34,7 +38,7 @@ println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty '
 
 minecraft {
 
-    mappings channel: 'official', version: '1.19.2'
+    mappings channel: 'parchment', version: '2022.08.14-1.19.2'
 
 
     runs {
