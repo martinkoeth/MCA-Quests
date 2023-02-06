@@ -1,9 +1,11 @@
 package me.soulvenom.mcaquests;
 
 import com.mojang.logging.LogUtils;
+import me.soulvenom.mcaquests.data.ConfigReader;
 import me.soulvenom.mcaquests.item.ModItems;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -20,10 +22,15 @@ public class MCAQuests {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public MCAQuests() {
+        QuestGenerator generator = new QuestGenerator();
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModItems.register(modEventBus);
         modEventBus.addListener(this::commonSetup);
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(generator);
+
+        // Config stuff
+        ConfigReader.readConfig();
 
     }
 
@@ -40,4 +47,6 @@ public class MCAQuests {
 
         }
     }
+
+
 }

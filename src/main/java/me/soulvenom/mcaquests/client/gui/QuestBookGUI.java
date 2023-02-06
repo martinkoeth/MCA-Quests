@@ -2,10 +2,8 @@ package me.soulvenom.mcaquests.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import me.soulvenom.mcaquests.Quest;
-import net.minecraft.client.Minecraft;
+import me.soulvenom.mcaquests.obj.Quest;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
