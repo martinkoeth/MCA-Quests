@@ -29,13 +29,15 @@ public class ConfigReader {
         // Test - Will later be replaced by reading mechanism
         List<Traits.Trait> traits = new ArrayList<>();
         List<String> moods = new ArrayList<>();
-        List<Personality> personalities = new ArrayList<>();
+        // List<Personality> personalities = new ArrayList<>();
 
         traits.add(Traits.Trait.DIABETES);
         moods.add("bored_to_tears");
-        personalities.add(Personality.WITTY);
+        // personalities.add(Personality.WITTY);
 
-        PossibleQuest quest = new PossibleQuest(personalities, true, moods, true,
+        PossibleQuest quest = new PossibleQuest(
+                // personalities, true,
+                moods, true,
                 traits, true, "male", QuestType.DELIVER, "dirt", 10, 64, 0, 999, 50, 1);
         quests.add(quest);
         // Test - Will later be replaced by reading mechanism

@@ -1,8 +1,12 @@
 package me.soulvenom.mcaquests;
 
 import com.mojang.logging.LogUtils;
+import forge.net.mca.entity.VillagerLike;
+import me.soulvenom.mcaquests.client.gui.InteractionQuestGUI;
+import me.soulvenom.mcaquests.client.render.IndicatorRenderer;
 import me.soulvenom.mcaquests.data.ConfigReader;
 import me.soulvenom.mcaquests.item.ModItems;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
@@ -23,15 +27,16 @@ public class MCAQuests {
 
     public MCAQuests() {
         QuestGenerator generator = new QuestGenerator();
+        IndicatorRenderer renderer = new IndicatorRenderer();
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModItems.register(modEventBus);
         modEventBus.addListener(this::commonSetup);
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(generator);
+        MinecraftForge.EVENT_BUS.register(renderer);
 
         // Config stuff
         ConfigReader.readConfig();
-
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

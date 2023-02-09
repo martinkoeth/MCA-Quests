@@ -10,8 +10,8 @@ import java.util.List;
 
 public class PossibleQuest {
 
-    private List<Personality> personalities;    // personalities required
-    private boolean personalitiesIsBlacklist;   // if personality list is blacklist or whitelist
+    // private List<Personality> personalities;    // personalities required
+    // private boolean personalitiesIsBlacklist;   // if personality list is blacklist or whitelist
     private List<String> moods;                   // moods required
     private boolean moodsIsBlacklist;           // if moods list is blacklist or whitelist
     private List<Traits.Trait> traits;          // traits required
@@ -34,9 +34,11 @@ public class PossibleQuest {
     // 5. If the randomly generated number is smaller or equal to the possibility, the villager offer the quest
 
 
-    public PossibleQuest(List<Personality> personalities, boolean personalitiesIsBlacklist, List<String> moods, boolean moodsIsBlacklist, List<Traits.Trait> traits, boolean traitIsBlacklist, String gender, QuestType questType, String target, int min, int max, int minRelation, int maxRelation, int possibility, int tier) {
-        this.personalities = personalities;
-        this.personalitiesIsBlacklist = personalitiesIsBlacklist;
+    public PossibleQuest(
+            //List<Personality> personalities, boolean personalitiesIsBlacklist,
+            List<String> moods, boolean moodsIsBlacklist, List<Traits.Trait> traits, boolean traitIsBlacklist, String gender, QuestType questType, String target, int min, int max, int minRelation, int maxRelation, int possibility, int tier) {
+        // this.personalities = personalities;
+        // this.personalitiesIsBlacklist = personalitiesIsBlacklist;
         this.moods = moods;
         this.moodsIsBlacklist = moodsIsBlacklist;
         this.traits = traits;
@@ -52,13 +54,13 @@ public class PossibleQuest {
         this.tier = tier;
     }
 
-    public List<Personality> getPersonalities() {
-        return personalities;
-    }
-
-    public boolean isPersonalitiesBlacklist() {
-        return personalitiesIsBlacklist;
-    }
+//    public List<Personality> getPersonalities() {
+//        return personalities;
+//    }
+//
+//    public boolean isPersonalitiesBlacklist() {
+//        return personalitiesIsBlacklist;
+//    }
 
     public List<String> getMoods() {
         return moods;

@@ -14,6 +14,8 @@ public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MCAQuests.MODID);
     public static final RegistryObject<Item> QUESTBOOK = ITEMS.register("questbook",
             () -> new QuestBookItem(new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
+    public static final RegistryObject<Item> QUESTINDICATOR = ITEMS.register("questindicator",
+            () -> new QuestBookItem(new Item.Properties()));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

@@ -6,6 +6,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import forge.net.mca.cobalt.network.NetworkHandler;
 import forge.net.mca.entity.VillagerLike;
 import forge.net.mca.network.c2s.InteractionCloseRequest;
+import me.soulvenom.mcaquests.data.TemporaryData;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -26,6 +28,7 @@ public class InteractionQuestGUI extends Screen {
 
         this.addRenderableWidget(new Button(this.width / 2 + 20, this.height / 2, 80, 20, Component.literal("Accept"), pButton -> onAccept()));
         this.addRenderableWidget(new Button(this.width / 2 - 100, this.height / 2, 80, 20, Component.literal("Decline"), pButton -> onDecline()));
+
     }
 
     @Override
@@ -48,7 +51,9 @@ public class InteractionQuestGUI extends Screen {
     }
 
     private void onAccept() {
-
+        TemporaryData.currentAcceptedQuests.put(Minecraft.getInstance().player, TemporaryData.currentAcceptableQuests.get(villager));
+        TemporaryData.currentAcceptableQuests.remove(villager);
+        TemporaryData.villagerWithQuests.add(villager);
     }
 
     private void onDecline() {

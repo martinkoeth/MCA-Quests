@@ -26,7 +26,7 @@ public class QuestGenerator {
     List<VillagerLike> villagers = new ArrayList<>();
 
     @SubscribeEvent
-    public void generateQuests(TickEvent.LevelTickEvent event) {
+    public void generateQuests(TickEvent.ServerTickEvent event) {
 
         tickCounter++;
 
@@ -36,9 +36,15 @@ public class QuestGenerator {
             VillagerLike villager = sortOutOne();
             if(villager != null) {
 
-                System.out.println("Test 1 - Villager chosen");
-
                 if(villager.isToYoungToSpeak()) {
+                    return;
+                }
+
+                if(TemporaryData.currentAcceptableQuests.containsKey(villager)) {
+                    return;
+                }
+
+                if(TemporaryData.villagerWithQuests.contains(villager)) {
                     return;
                 }
 
@@ -46,7 +52,6 @@ public class QuestGenerator {
                 for(PossibleQuest quest : ModData.getPossibleQuests()) {
                     if(hasRequirements(villager, quest)) {
                         questsWithRequirement.add(quest);
-                        System.out.println("Test 2 - Quest registered");
                     }
                 }
 
@@ -60,7 +65,7 @@ public class QuestGenerator {
                     return;
                 }
 
-                TemporaryData.currentAcceptableQuests.add(createQuest(quest, villager));
+                TemporaryData.currentAcceptableQuests.put(villager, createQuest(quest, villager));
 
             }
 
@@ -105,14 +110,14 @@ public class QuestGenerator {
         VillagerBrain brain = villager.getVillagerBrain();
 
         // check for personality
-        if(quest.getPersonalities().contains(brain.getPersonality())) {
-
-            if(quest.isPersonalitiesBlacklist()) {
-                return false;
-            }
-        } else if(!quest.isPersonalitiesBlacklist()) {
-            return false;
-        }
+//        if(quest.getPersonalities().contains(brain.getPersonality())) {
+//
+//            if(quest.isPersonalitiesBlacklist()) {
+//                return false;
+//            }
+//        } else if(!quest.isPersonalitiesBlacklist()) {
+//            return false;
+//        }
 
         // check for trait
         for(Traits.Trait trait : quest.getTraits()) {
@@ -145,11 +150,8 @@ public class QuestGenerator {
 
 
         if(random.nextInt(101) <= quest.getPossibility()) {
-            System.out.println("Test 3 - Quest chosen");
             return quest;
         }
-
-        System.out.println("Test 3 - Quest not chosen");
 
         return null;
     }
@@ -159,13 +161,7 @@ public class QuestGenerator {
 
         int goal = random.nextInt(quest.getMin(), quest.getMax());
 
-        System.out.println("New quest created with: "
-                + "\n villager: " + villager.getGameProfile().getName()
-                + "\n questType: " + quest.getQuestType()
-                + "\n target: " + quest.getTarget()
-                + "\n goal: " + goal);
-
-        return new Quest(villager, quest.getQuestType(), quest.getTarget(), ModData.getRewards().get(quest.getTier()), 0, goal);
+        return new Quest(villager, quest.getMinRelation(), quest.getMaxRelation(), quest.getQuestType(), quest.getTarget(), ModData.getRewards().get(quest.getTier()), goal);
     }
 
 
