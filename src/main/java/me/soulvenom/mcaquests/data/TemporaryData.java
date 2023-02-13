@@ -12,7 +12,7 @@ import java.util.List;
 public class TemporaryData {
 
     public static HashMap<VillagerLike, Quest> currentAcceptableQuests = new HashMap<>();
-    public static HashMap<Player, Quest> currentAcceptedQuests = new HashMap<>();
+    public static HashMap<Player, List<Quest>> currentAcceptedQuests = new HashMap<>();
     public static List<VillagerLike> villagerWithQuests = new ArrayList<>();
 
 }

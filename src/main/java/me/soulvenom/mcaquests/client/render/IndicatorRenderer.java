@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Quaternion;
 import forge.net.mca.entity.VillagerLike;
+import me.soulvenom.mcaquests.data.ClientData;
 import me.soulvenom.mcaquests.data.TemporaryData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -43,8 +44,8 @@ public class IndicatorRenderer {
                     TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(INDICATOR);
                     questIndicatorRenderer(0.5f, sprite, event.getPoseStack(), event.getMultiBufferSource());
                 }
-            } else if(TemporaryData.currentAcceptedQuests.containsKey(player)) {
-                    if(TemporaryData.currentAcceptedQuests.get(player).villager.asEntity().getId() == event.getEntity().getId()) {
+            } else if(TemporaryData.currentAcceptedQuests.containsKey(villager)) {
+                    if(villager.asEntity().getId() == event.getEntity().getId()) {
                         TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(BOOK);
                         questIndicatorRenderer(0.5f, sprite, event.getPoseStack(), event.getMultiBufferSource());
                     }
@@ -63,7 +64,7 @@ public class IndicatorRenderer {
         pose.translate(0, 2.5f, 0);
         Quaternion rotation = Minecraft.getInstance().gameRenderer.getMainCamera().rotation();
         pose.mulPose(rotation);
-        VertexConsumer builder = buffer.getBuffer(CustomRenderType.ADD);
+        VertexConsumer builder = buffer.getBuffer(RenderType.cutout());
         Matrix4f matrix = pose.last().pose();
 
 

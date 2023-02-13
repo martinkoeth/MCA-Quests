@@ -6,20 +6,26 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import forge.net.mca.cobalt.network.NetworkHandler;
 import forge.net.mca.entity.VillagerLike;
 import forge.net.mca.network.c2s.InteractionCloseRequest;
+import me.soulvenom.mcaquests.data.ClientData;
 import me.soulvenom.mcaquests.data.TemporaryData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
+
+import java.util.ArrayList;
 
 public class InteractionQuestGUI extends Screen {
 
 //    VillagerLike villager = ((InteractScreenAccessor) InteractScreen).getVillager();
     VillagerLike villager;
+    Player player;
 
     public InteractionQuestGUI(Component pTitle, VillagerLike villager) {
         super(pTitle);
         this.villager = villager;
+        player = Minecraft.getInstance().player;
     }
 
     @Override
@@ -51,13 +57,31 @@ public class InteractionQuestGUI extends Screen {
     }
 
     private void onAccept() {
-        TemporaryData.currentAcceptedQuests.put(Minecraft.getInstance().player, TemporaryData.currentAcceptableQuests.get(villager));
+
+        // ALL THIS WILL HAVE TO BE REGISTERED IN A SERVER SIDE DATA CONTAINER ---------------------
+        if(!TemporaryData.currentAcceptedQuests.containsKey(player)) {
+            TemporaryData.currentAcceptedQuests.put(player, new ArrayList<>());
+            // 10 -> config -> maxQuestAmount
+        } else if(TemporaryData.currentAcceptedQuests.get(player).size() == 10) {
+            // Say he has to many quests
+            Minecraft.getInstance().setScreen(null);
+            return;
+        }
+        TemporaryData.currentAcceptedQuests.get(Minecraft.getInstance().player).add(TemporaryData.currentAcceptableQuests.get(villager));
         TemporaryData.currentAcceptableQuests.remove(villager);
+
+        // This makes it easier to track if the player should see a red book indicator
         TemporaryData.villagerWithQuests.add(villager);
+        // ALL THIS WILL HAVE TO BE REGISTERED IN A SERVER SIDE DATA CONTAINER ---------------------
+
+
+        // This makes it easier to track if the player should see a red book indicator
+        ClientData.villagerWithQuestsForPlayer.add(villager);
+        Minecraft.getInstance().setScreen(null);
     }
 
     private void onDecline() {
-
+        Minecraft.getInstance().setScreen(null);
     }
 
     //    @Override

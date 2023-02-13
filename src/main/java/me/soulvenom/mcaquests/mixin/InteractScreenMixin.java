@@ -21,14 +21,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(InteractScreen.class)
 public abstract class InteractScreenMixin extends AbstractDynamicScreen {
 
-        @Shadow(remap = false) @Final private VillagerLike<?> villager;
-        @Shadow(remap = false) @Final private Player player;
+        @Shadow() @Final private VillagerLike<?> villager;
+        @Shadow() @Final private Player player;
 
         protected InteractScreenMixin(Component title) {
                 super(title);
         }
 
-        @Inject(method = "render", at = @At("TAIL"), remap = false)
+        @Inject(method = "render", at = @At("TAIL"))
         protected void checkDrawButton(CallbackInfo ci) {
                 if(super.getActiveScreen().equals("main")) {
                         if (TemporaryData.currentAcceptableQuests.containsKey(villager)) {

@@ -13,6 +13,7 @@ public class Quest {
     public Reward reward;           // Reward the player will get upon completion
     public int completed;           // how much the player completed/handed in for the quest
     public int goal = 0;                // how much the player is supposed to complete for the quest    (will also be used for HUD overlay tracker)
+    public boolean tracked = false;
 
     public Quest(VillagerLike villager, int minRelationToSee, int maxRelationToSee, QuestType questType, String target, Reward reward, int completed) {
         this.villager = villager;
@@ -22,6 +23,14 @@ public class Quest {
         this.target = target;
         this.reward = reward;
         this.completed = completed;
+    }
+
+    public boolean isTracked() {
+        return tracked;
+    }
+
+    public void setTracked(boolean tracked) {
+        this.tracked = tracked;
     }
 
     public void setGoal(int goal) {

@@ -28,6 +28,10 @@ public class QuestGenerator {
     @SubscribeEvent
     public void generateQuests(TickEvent.ServerTickEvent event) {
 
+        if(villagers.isEmpty()) {
+            return;
+        }
+
         tickCounter++;
 
         // 20 -> later config
