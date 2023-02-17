@@ -25,6 +25,9 @@ public class PossibleQuest {
     private int maxRelation;                    // How much relation is minimally required
     private int possibility;                    // How often this quest will appear once the requirements are met
     private int tier;                           // How hard the quest is -> How much rewards it should generate
+    private String[] questDialogue;             // A string containing the quest dialogue
+    private String[] questFailedDialogue;       // A string containing the quest dialogue           Dialogues are still registered in the mca part of the resources file
+    private String[] questSuccessDialogue;      // A string containing the quest success dialogue
 
     // Although possibility works with percent values, it will be implemented the following way:
     // 1. Every few ticks (configurable) the world will try to generate a quest for a random loaded villager

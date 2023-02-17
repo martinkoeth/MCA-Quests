@@ -13,10 +13,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.gui.widget.ExtendedButton;
 
+import java.util.HashMap;
+
 public class QuestBookGUI extends Screen {
 
     private Quest[] quests;
     private Player player;
+    private HashMap<Quest, String> entries = new HashMap<>(); // Quest / Layout
 
     public QuestBookGUI(Component pTitle) {
         super(pTitle);
@@ -26,14 +29,7 @@ public class QuestBookGUI extends Screen {
     @Override
     protected void init() {
         super.init();
-
-        // quest
-        if(TemporaryData.currentAcceptedQuests.containsKey(player)) {
-            for(int i = 0; i < TemporaryData.currentAcceptedQuests.get(player).size(); i++) {
-                renderQuest(TemporaryData.currentAcceptedQuests.get(player).get(i), i);
-            }
-
-        }
+        registerEntries();
     }
 
     @Override
@@ -46,28 +42,44 @@ public class QuestBookGUI extends Screen {
         RenderSystem.setShaderTexture(0, new ResourceLocation("mcaquests", "textures/gui/questbook.png"));
         blit(pPoseStack, this.width / 2 - (pWidth / 2), this.height / 2 - (pHeight / 2), 0, 0, pWidth, pHeight, pWidth, pHeight);
 
-
-
-
         super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
     }
 
-    public void addQuestButtons(Quest quest, int slot) {
-        int centralY = slot * 30 + 10;
-        int centralX = 50;
-
-        if(slot > 5) {
-            centralX = 100;
+    private void registerEntries() {
+        // Put everything into the entry hashmap
+        if (TemporaryData.currentAcceptedQuests.containsKey(player)) {
+            for (Quest quest : TemporaryData.currentAcceptedQuests.get(player)) {
+                entries.put(quest, "default");
+            }
         }
+    }
 
-        // entry_background
-        this.addWidget(centralX, centralY, 143, 28)
+    private void addButton() {
+        // Has to be executed when one Entry layout is changes
+        for(int i = 0; i < entries.size(); i++) {
+            int y = i * 12 + 20;
+            int x = 40;
+            if(i > 5) {
+                x = 80;
+            }
+
+            if (entries.values().toArray()[i] == "default") {
+                this.addWidget(new Button(x, y, 143, 28, Component.literal("Entry"), pButton -> changeLayout()));
+            }
+
+
+        }
+    }
+
+    private void changeLayout() {
 
     }
 
-    public void 
+    private void renderEntries(int slot) {
 
-    private void hovering() {
+    }
+
+    private void giveQuestInfos() {
 
     }
 
