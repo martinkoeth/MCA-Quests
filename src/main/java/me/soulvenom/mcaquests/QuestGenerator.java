@@ -1,6 +1,7 @@
 package me.soulvenom.mcaquests;
 
 
+import forge.net.mca.entity.VillagerEntityMCA;
 import forge.net.mca.entity.VillagerLike;
 import forge.net.mca.entity.ai.Traits;
 import forge.net.mca.entity.ai.brain.VillagerBrain;
@@ -9,9 +10,6 @@ import me.soulvenom.mcaquests.data.ModData;
 import me.soulvenom.mcaquests.data.TemporaryData;
 import me.soulvenom.mcaquests.obj.PossibleQuest;
 import me.soulvenom.mcaquests.obj.Quest;
-import net.minecraft.client.Minecraft;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -23,7 +21,7 @@ import java.util.*;
 public class QuestGenerator {
 
     int tickCounter = 0;
-    List<VillagerLike> villagers = new ArrayList<>();
+    List<VillagerEntityMCA> villagers = new ArrayList<>();
 
     @SubscribeEvent
     public void generateQuests(TickEvent.ServerTickEvent event) {
@@ -37,7 +35,7 @@ public class QuestGenerator {
         // 20 -> later config
         if(tickCounter >= 20) {
 
-            VillagerLike villager = sortOutOne();
+            VillagerEntityMCA villager = sortOutOne();
             if(villager != null) {
 
                 if(villager.isToYoungToSpeak()) {
@@ -80,9 +78,9 @@ public class QuestGenerator {
     @SubscribeEvent
     public void getVillagers(LivingEvent.LivingTickEvent event) {
 
-        if(event.getEntity() instanceof VillagerLike) {
+        if(event.getEntity() instanceof VillagerEntityMCA) {
 
-            VillagerLike villager = (VillagerLike) event.getEntity();
+            VillagerEntityMCA villager = (VillagerEntityMCA) event.getEntity();
 
             if(!villagers.contains(villager)) {
                 villagers.add(villager);
@@ -90,7 +88,7 @@ public class QuestGenerator {
         }
     }
 
-    private VillagerLike sortOutOne() {
+    private VillagerEntityMCA sortOutOne() {
 
         Random random = new Random();
         int villagerNum = random.nextInt(villagers.size());
@@ -104,7 +102,7 @@ public class QuestGenerator {
         return null;
     }
 
-    private boolean hasRequirements(VillagerLike villager, PossibleQuest quest) {
+    private boolean hasRequirements(VillagerEntityMCA villager, PossibleQuest quest) {
 
         // check for gender
         if(villager.getGenetics().getGender() != Gender.byName(quest.getGender().toUpperCase(Locale.ROOT))) {
@@ -160,7 +158,7 @@ public class QuestGenerator {
         return null;
     }
 
-    private Quest createQuest(PossibleQuest quest, VillagerLike villager) {
+    private Quest createQuest(PossibleQuest quest, VillagerEntityMCA villager) {
         Random random = new Random();
 
         int goal = random.nextInt(quest.getMin(), quest.getMax());

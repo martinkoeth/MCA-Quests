@@ -3,6 +3,7 @@ package me.soulvenom.mcaquests.mixin;
 
 import forge.net.mca.client.gui.AbstractDynamicScreen;
 import forge.net.mca.client.gui.InteractScreen;
+import forge.net.mca.entity.VillagerEntityMCA;
 import forge.net.mca.entity.VillagerLike;
 import me.soulvenom.mcaquests.client.gui.InteractionQuestGUI;
 import me.soulvenom.mcaquests.data.TemporaryData;
@@ -31,13 +32,16 @@ public abstract class InteractScreenMixin extends AbstractDynamicScreen {
         @Inject(method = "render", at = @At("TAIL"))
         protected void checkDrawButton(CallbackInfo ci) {
                 if(super.getActiveScreen().equals("main")) {
-                        if (TemporaryData.currentAcceptableQuests.containsKey(villager)) {
-                                int hearts = villager.getVillagerBrain().getMemoriesForPlayer(player).getHearts();
-                                if (TemporaryData.currentAcceptableQuests.get(villager).minRelationToSee <= hearts &&
-                                        TemporaryData.currentAcceptableQuests.get(villager).maxRelationToSee >= hearts) {
-                                        this.addRenderableWidget(new Button(390, 136, 80, 20, Component.literal("Quest"), pButton ->
-                                                Minecraft.getInstance().setScreen(new InteractionQuestGUI(Component.literal("quest"), villager))));
+                        if (villager instanceof VillagerEntityMCA) {
+                                VillagerEntityMCA villagerEntity = (VillagerEntityMCA) villager;
+                                if (TemporaryData.currentAcceptableQuests.containsKey(villagerEntity)) {
+                                        int hearts = villagerEntity.getVillagerBrain().getMemoriesForPlayer(player).getHearts();
+                                        if (TemporaryData.currentAcceptableQuests.get(villagerEntity).minRelationToSee <= hearts &&
+                                                TemporaryData.currentAcceptableQuests.get(villagerEntity).maxRelationToSee >= hearts) {
+                                                this.addRenderableWidget(new Button(390, 136, 80, 20, Component.literal("Quest"), pButton ->
+                                                        Minecraft.getInstance().setScreen(new InteractionQuestGUI(Component.literal("quest"), villagerEntity))));
 
+                                        }
                                 }
                         }
                 }

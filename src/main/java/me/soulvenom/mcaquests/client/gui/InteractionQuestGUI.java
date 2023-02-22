@@ -4,6 +4,7 @@ package me.soulvenom.mcaquests.client.gui;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import forge.net.mca.cobalt.network.NetworkHandler;
+import forge.net.mca.entity.VillagerEntityMCA;
 import forge.net.mca.entity.VillagerLike;
 import forge.net.mca.network.c2s.InteractionCloseRequest;
 import me.soulvenom.mcaquests.data.ClientData;
@@ -19,10 +20,10 @@ import java.util.ArrayList;
 public class InteractionQuestGUI extends Screen {
 
 //    VillagerLike villager = ((InteractScreenAccessor) InteractScreen).getVillager();
-    VillagerLike villager;
+    VillagerEntityMCA villager;
     Player player;
 
-    public InteractionQuestGUI(Component pTitle, VillagerLike villager) {
+    public InteractionQuestGUI(Component pTitle, VillagerEntityMCA villager) {
         super(pTitle);
         this.villager = villager;
         player = Minecraft.getInstance().player;
