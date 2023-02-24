@@ -9,15 +9,20 @@ import me.soulvenom.mcaquests.obj.Quest;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.commands.arguments.item.ItemInput;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.event.RenderTooltipEvent;
+import net.minecraftforge.registries.GameData;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 
 public class QuestBookGUI extends Screen implements ICustomOnPress {
 
@@ -129,6 +134,8 @@ public class QuestBookGUI extends Screen implements ICustomOnPress {
                         questInfo += " killed";
                     }
 
+                    Minecraft.getInstance().getItemRenderer().renderGuiItem(ItemArgument.);
+
                     ResourceLocation location = new ResourceLocation("mcaquests", "textures/gui/entry.png");
                     renderEntry(poseStack, x, y, 143, 28, location, 0.72f, 0.70f, 0.62f);
                     drawCenteredString(poseStack, Minecraft.getInstance().font, Component.literal(villagerInfo), x + 65, y + 3, 0x8E8777);
@@ -166,15 +173,45 @@ public class QuestBookGUI extends Screen implements ICustomOnPress {
         }
     }
 
+    // Progress through each entry
     @Override
     public void onPress(CustomButton button) {
         if(button.getId().contains("entry")) {
+            resetLayouts();
             changeLayout(button, "options");
         } else if(button.getId().contains("cancel")) {
             changeLayout(button, "confirm");
         } else if(button.getId().contains("track")) {
             TemporaryData.currentAcceptedQuests.get(player).get(button.getIndex()).changeTracked();
         }
+    }
+
+    @Override
+    public boolean mouseReleased(double pMouseX, double pMouseY, int pButton) {
+        // Progress to the start of all entries if the player clicks on the background
+        if(getChildAt(pMouseX, pMouseY).isEmpty()) {
+            resetLayouts();
+        }
+        return super.mouseReleased(pMouseX, pMouseY, pButton);
+    }
+
+
+    @Override
+    public boolean keyReleased(int pKeyCode, int pScanCode, int pModifiers) {
+        if(pKeyCode == 1) {
+            if(areEntriesDefault()) {
+                Minecraft.getInstance().setScreen(null);
+            } else {
+                resetLayouts();
+            }
+
+        }
+        return super.keyReleased(pKeyCode, pScanCode, pModifiers);
+    }
+
+    @Override
+    public boolean shouldCloseOnEsc() {
+        return false;
     }
 
     private void giveQuestInfos() {
@@ -200,5 +237,24 @@ public class QuestBookGUI extends Screen implements ICustomOnPress {
         entries.get(index).clearButtons();
         this.removeWidget(button);
         addButtons(index);
+    }
+
+    private void resetLayouts() {
+        for(int i = 0; i < entries.size(); i ++) {
+            // Reset all buttons to entry layout
+            if(!entries.get(i).getCurrentLayout().equals("entry")) {
+                entries.get(i).setCurrentLayout("entry");
+            }
+        }
+    }
+
+    private boolean areEntriesDefault() {
+        for(int i = 0; i < entries.size(); i ++) {
+            // Reset all buttons to entry layout
+            if(!entries.get(i).getCurrentLayout().equals("entry")) {
+                return false;
+            }
+        }
+        return true;
     }
 }
